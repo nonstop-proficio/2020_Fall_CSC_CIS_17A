@@ -1,155 +1,200 @@
-/*An amateur meteorologist wants to keep track of weather conditions during the
-past year’s three-month summer season and has designated each day as either rainy
-(‘R’), cloudy (‘C’), or sunny (‘S’). Write a program that stores this information in a
-3 × 30 array of characters, where the row indicates the month (0 = June, 1 = July,
-2 = August) and the column indicates the day of the month. Note that data are not
-being collected for the 31st of any month. The program should begin by reading the
-weather data in from a file. Then it should create a report that displays, for each
-month and for the whole three-month period, how many days were rainy, how many
-were cloudy, and how many were sunny. It should also report which of the three
-months had the largest number of rainy days. Data for the program can be found in
-the RainOrShine.txt file.*/
-
 #include <cstdlib>
 #include <iostream>
 #include <fstream>
+#include <ctime>
 using namespace std;
-//constants for array declarations
-const int ROWS = 3,
-          COLUMNS = 30;
 
-//array declarations, global access
-string weather_types[ROWS] =  {"Rainy", "Cloudy", "Sunny"};
-string months[ROWS]             =  {"June", "July", "August"};
-char weather_day_names[ROWS]    =  {'R', 'C', 'S'};
+//Global constants for the multidimensional array size declarators-----
+const int MONTHS = 3,
+          DAYS = 30;
 
-//function prototypes
-void readFileTo(char[][COLUMNS], string);
-void displayDays(const char[][COLUMNS], int);
-void displayMonths(const char[][COLUMNS], int);
-void displayHighest(const char[][COLUMNS]);
+//Function Prototypes-----
+void wrtFile(string); //Write weather data to file 
+void rdFileToArr(char [][DAYS], string); //Reads contents of file and stores them in 2D array
+void assgnMonthData(string ,char [],const char[][DAYS]); //Assign corresponding weather data to each month
+void dispSummerStats(const char [][DAYS]); //Display # of R, C, and S days in summer array
+void dispMonthlyStats(string , const char[]); //Display # of R, C, and S days in month array
+void displayHighestRainy(const char [][DAYS]); //Display which month had the highest # of rainy days
 
-//main
-int main()
-{
-    char weather_conditions[ROWS][COLUMNS];
+//Main STARTS here-----
+int main(){
+//Set the random seed here
+srand(static_cast<unsigned int>(time(0)));
+//Variable declarations
+string fileName = "RainOrShine.txt";                  //File Name
+string month_names[MONTHS] = {"June", "July", "August"};   //Month names array
+char summer_weather[MONTHS][DAYS];                    //Array for conditions all summer (90 days, excludes 31st day)
+char june_weather[DAYS],                              //Array for conditions in June
+     july_weather[DAYS],                              //Array for conditions in July
+     august_weather[DAYS];                            //Array for conditions in August
+//Create RainOrShine.txt file
+wrtFile(fileName);
+//Write contents of file to weather conditions arr (only works with 2D arrays)
+rdFileToArr(summer_weather, fileName); 
+//Assign corresponding weather data to each month
+assgnMonthData(month_names[0], june_weather, summer_weather);
+assgnMonthData(month_names[1], july_weather, summer_weather);
+assgnMonthData(month_names[2], august_weather, summer_weather);
 
-    readFileTo(weather_conditions, "RainOrShine.txt");
+//User friendly info:
+cout << "These were the numbers recorded over the summer: " << endl;
+//display monthly stats 
+dispMonthlyStats(month_names[0], june_weather);
+dispMonthlyStats(month_names[1], july_weather);
+dispMonthlyStats(month_names[2], august_weather);
+//display summer stats
+dispSummerStats(summer_weather);
+//display which month had the highest # of rainy days
+displayHighestRainy(summer_weather);
+return 0;
+}
+//Main ENDS here-----
 
-    for (int letter = 0; letter < ROWS; letter++)
-        displayDays(weather_conditions, letter);
+//Function Definitions -----
+/**
+ * @brief  Writes weather data to file 
+ * 
+ * @param fileName a string which holds the name of the file
+ */
+void wrtFile(string fileName){
+    const char w_types [3] = {'R', 'C', 'S'}; // Types of weather to write 
+    const int daysRecorded = 90; //Days to write info on file
+
+    //Random number between 0-2 to write a random weather type from w_types array 
+    int randWT;
     
-
-    for (int i = 0; i < ROWS; i++)
-        displayMonths(weather_conditions, i);
-    
-
-    displayHighest(weather_conditions);
-
-    cout << endl;
-
-    return 0;
+    //Open file
+    ofstream outputFile;
+    outputFile.open(fileName);
+    //write weather data to file
+    for(int month = 0; month < MONTHS; month++){
+        for(int day = 0; day < DAYS; day++){
+            randWT = (rand() % (2 - 0 + 1)) + 0; 
+            outputFile << w_types[randWT]; //randWT is a random int between 0-2
+        }
+        outputFile << endl;
+    }         
+    //close file
+    outputFile.close();
 }
 
-//function definitions
-void readFileTo(char array[][COLUMNS], string fileName)
-{
+/**
+ * @brief Reads contents of file and stores them in 2D array
+ * 
+ * @param arr Array that file contents are being stored in 
+ * @param fileName Name of the file that will be read
+ */
+void rdFileToArr(char arr[][DAYS], string fileN){ 
     ifstream inputFile;
-
-    inputFile.open(fileName);
-
-    for (int row = 0; row < ROWS; row++)
-    {
-        for (int col = 0; col < COLUMNS; col++)
-        
-            inputFile >> array[row][col];
-        
+    inputFile.open(fileN);
+    for (int row = 0; row < MONTHS; row++){
+        for (int col = 0; col < DAYS; col++){
+            inputFile >> arr[row][col];
+        }
     }
-    
     inputFile.close();
 }
 
-void displayDays(const char array[][COLUMNS], int i)
-{
-    int total;
-    for (int row = 0; row < ROWS; row++)
-    {
-        total = 0;
-        for (int col = 0; col < COLUMNS; col++)
-        
-            if (array[row][col] == weather_day_names[i])
-            { total++; }
-        
-        cout << "Total "
-             << weather_types[i]
-             << " days for "
-             << months[row]
-             << " = "
-             << total
-             << endl;
-    }
-    cout << endl;
-}
+/**
+ * @brief Assign corresponding weather data to each month
+ * 
+ * @param month string, name of the month
+ * @param monthArr name of a one dimensional array that contains weather data for that month.
+ * @param summerArr 2d array that contains the data which will be assigned
+ */
+void assgnMonthData(string month, char monthArr[], const char summerArr[][DAYS]){
+    //Used to iterate within designated parts of the summer array
+    int selectedM = 0; //designates the row I want to get the values from
 
-void displayMonths(const char array[][COLUMNS], int i)
-{
-    int total = 0;
-    for (int row = 0; row < ROWS; row++)
-    {
-        for (int col = 0; col < COLUMNS; col++)        
-            if (array[row][col] == weather_day_names[i])
-            { total++; }
-    }        
-            cout << "Total "
-                 << weather_types[i]
-                 << " days for all months = "
-                 << total
-                 << endl;
-        
-    
-}
+    if(month == "June")
+        selectedM = 1;
+    if(month == "July")
+        selectedM = 2;
+    if(month == "August")
+        selectedM = 3;
 
-
-void displayHighest(const char array[][COLUMNS])
-{
-    int sum;
-    int total_rainy_days[ROWS];
-    
-    for (int row = 0; row < ROWS; row++)
-    {
-        sum = 0;
-        for (int col = 0; col < COLUMNS; col++)
-            if (array[row][col] == 'R') { sum++; }
-            
-        total_rainy_days[row] = sum;
-    }
-
-    cout << endl;
-
-
-    int highest_rainy_day = total_rainy_days[0];
-    string highest_rainy_day_name = months[0];
-
-    for(int i = 1; i < ROWS; i++)
-    {
-        if(total_rainy_days[i] > highest_rainy_day)
-        {
-            highest_rainy_day = total_rainy_days[i];
-            highest_rainy_day_name = months[i];
-        } 
-        else if(total_rainy_days[i] == highest_rainy_day)
-        {
-            highest_rainy_day = total_rainy_days[i];
-            highest_rainy_day_name += ", ";
-            highest_rainy_day_name += months[i];
+    for(int month = 0; month < selectedM; month++){
+        for(int day = 0; day < DAYS; day++){
+            monthArr[day] = summerArr[month][day];
         }
-            
     }
+}
 
-    cout << highest_rainy_day_name
-         << " had the highest rainy days, "
-         << "with "
-         << highest_rainy_day
-         << " days."
-         << endl;
+/**
+ * @brief Display # of R, C, and S days in summer array
+ * 
+ * @param summerArr name of 2d array of chars containing the weather data
+ */
+void dispSummerStats(const char summerArr[][DAYS]){
+    int totalRainy = 0,
+        totalCloudy = 0,
+        totalSunny = 0;
+
+    for(int month = 0; month < MONTHS; month++){
+        for(int day = 0; day < DAYS; day++){
+            if(summerArr[month][day] == 'R') {totalRainy++;}
+        }
+    }
+    for(int month = 0; month < MONTHS; month++){
+        for(int day = 0; day < DAYS; day++){            
+            if(summerArr[month][day] == 'C') {totalCloudy++;}            
+        }
+    }
+    for(int month = 0; month < MONTHS; month++){
+        for(int day = 0; day < DAYS; day++){
+            if(summerArr[month][day] == 'S') {totalSunny++;}
+        }
+    }
+    cout << endl;
+    cout << "There was a total of " << totalRainy << " rainy days this summer." << endl;
+    cout << "There was a total of " << totalCloudy << " cloudy days this summer." << endl;
+    cout << "There was a total of " << totalSunny << " sunny days this summer." << endl;
+}
+
+/**
+ * @brief Display # of R, C, and S days in month array
+ * 
+ * @param month Name of the month, string 
+ * @param monthArr name of 1d array, contains weather data for that month
+ */
+void dispMonthlyStats(string month, const char monthArr[]){
+    int totalRainy = 0,
+        totalCloudy = 0,
+        totalSunny = 0;
+
+    for(int i = 0; i < DAYS; i++){
+        if(monthArr[i] == 'R') {totalRainy++;}
+        if(monthArr[i] == 'C') {totalCloudy++;}
+        if(monthArr[i] == 'S') {totalSunny++;}
+    }
+    cout << endl;
+    cout << month << " had : " << "\n"
+         << totalRainy << " rainy days.\n" 
+         << totalCloudy << " cloudy days.\n" 
+         << totalSunny << " sunny days.\n";
+}
+
+/**
+ * @brief Display which month had the highest # of rainy days
+ * 
+ * @param summerArr 2d array containing weather data for the summer
+ */
+void displayHighestRainy(const char summerArr[][DAYS]){
+    int junRainy = 0,
+        julRainy = 0,
+        augRainy = 0;
+    for(int month = 0; month < MONTHS; month++){
+        for(int day = 0; day < DAYS; day++){
+            if(summerArr[0][day] == 'R') {junRainy++;}
+            if(summerArr[01][day] == 'C') {julRainy++;}
+            if(summerArr[02][day] == 'S') {augRainy++;}
+        }
+    }
+    if(junRainy > julRainy && junRainy > augRainy){
+        cout << "\nJune had the highest amount of rainy days." << endl;
+    }else if(julRainy > junRainy && julRainy > augRainy){
+        cout << "\nJuly had the highest amount of rainy days." << endl;
+    }else{
+        cout << "\nAugust had the highest amount of rainy days." << endl;
+    }
 }
