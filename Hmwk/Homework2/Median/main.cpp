@@ -136,3 +136,4 @@ void prntMed(float * medPtr){
         
     }
 }
+
