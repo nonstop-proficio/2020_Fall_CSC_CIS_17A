@@ -225,3 +225,4 @@ int * mode(const int * array, int arySize) {
     delete[] ary;
     return modeAry;
 }
+
