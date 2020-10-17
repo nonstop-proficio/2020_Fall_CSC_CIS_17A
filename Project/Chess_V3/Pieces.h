@@ -14,10 +14,11 @@ struct Piece {
 
 //Stores information used to move pieces
 struct Ply {
-    int pRow; //Current piece row
-    int pCol; //Current piece column
-    int dRow; //Destination row
-    int dCol; //Destination column
+    string player;
+    int pRow; //Current position row coordinate
+    int pCol; //Current position column coordinate 
+    int dRow; //Destination row coordinate
+    int dCol; //Destination column coordinate
 };
 
 #endif 
