@@ -602,6 +602,43 @@ bool pwnLogic(Ply move, Piece whitArr[], Piece blckArr[], int pIndex){
 	return legalPly;
 }
 
+bool knightLogic(Ply move, Piece whitArr[], Piece blckArr[], int pIndex){
+	bool legalPly = false;
+	int i = pIndex;
+	//The knight has 8 possible moves maximum at any given time
+	//This is only true if the all 8 destination coords are within
+	//the board. 
+	//If the destination coords match the possible legal areas;
+	//Legal ply returns true, else; it is returned false without 
+	//being modified
+	if(move.dRow == (move.pRow - 6) && move.dCol == (move.pCol - 7)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow - 6) && move.dCol == (move.pCol + 7)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow - 3) && move.dCol == (move.pCol - 14)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow - 3) && move.dCol == (move.pCol + 14)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 3) && move.dCol == (move.pCol - 14)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 3) && move.dCol == (move.pCol + 14)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 6) && move.dCol == (move.pCol - 7)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 6) && move.dCol == (move.pCol + 7)){
+		legalPly = true;
+	}
+
+	return legalPly;
+}
+
 //Check input for piece selection and destination, used in get ply function
 bool checkIn(char letter, int number){
 	bool valid;
