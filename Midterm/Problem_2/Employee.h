@@ -19,6 +19,7 @@ struct Employee {
     string name;
     float workHrs;
     float payRate;
+    float grssPay;
 };
 
 #endif /* EMPLOYEE_H */
