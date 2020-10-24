@@ -43,6 +43,12 @@ bool pwnLogic(Ply,Piece[],Piece[],int);			//Checks that move is legal for pawns
 
 bool knightLogic(Ply,Piece[],Piece[],int);		//Checks that move is legal for knights
 
+bool bishopLogic(Ply,Piece[],Piece[],int);		//Checks that move is legal for bishops
+
+bool towerLogic(Ply,Piece[],Piece[],int);		//Checks that move is legal for tower
+
+bool queenLogic(Ply,Piece[],Piece[],int);		//Checks that move is legal for queen pieces 
+
 bool checkIn(char, int);					//Validates user input during getPLy function
 
 //-----------------------------------------MAIN--------------------------------
@@ -556,6 +562,16 @@ bool legalM(Ply move, Piece whitArr[], Piece blckArr[]){
 	if(pieceName == "Knight"){
 		legal = knightLogic(move, whitArr, blckArr, pIndex);
 	}
+	if(pieceName == "Bishop"){
+		legal = bishopLogic(move, whitArr, blckArr, pIndex);
+	}
+	if(pieceName == "Tower"){
+		legal = towerLogic(move, whitArr, blckArr, pIndex);
+	}
+	if(pieceName == "Queen"){
+		legal = queenLogic(move, whitArr, blckArr, pIndex);
+	}
+
 
 	return legal;
 }
@@ -649,7 +665,399 @@ bool knightLogic(Ply move, Piece whitArr[], Piece blckArr[], int pIndex){
 	return legalPly;
 }
 
+bool bishopLogic(Ply move, Piece whitArr[], Piece blckArr[], int pIndex){
+	bool legalPly = false;
+	int i = pIndex;
 
+	//the bishop moving diagonally means that it will always conform to certain diagonal 
+	// movement requirements
+
+	//The are 7 possible values in every direction, hence the many checks... 
+
+	//for diagonal movement in ASCENDING RIGHT direction (row -3 , col +7)
+	if(move.dRow == (move.pRow - 3) && move.dCol == (move.pCol + 7)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow  -6) && move.dCol == (move.pCol + 14)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow - 9) && move.dCol == (move.pCol + 21)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow - 12) && move.dCol == (move.pCol + 28)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow - 15) && move.dCol == (move.pCol + 35)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow - 18) && move.dCol == (move.pCol + 42)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow - 21) && move.dCol == (move.pCol + 49)){
+		legalPly = true;
+	}
+
+	//for diagonal movement in DESCENDING RIGHT direction (row +3 , col +7)
+	if(move.dRow == (move.pRow + 3) && move.dCol == (move.pCol + 7)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 6) && move.dCol == (move.pCol + 14)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 9) && move.dCol == (move.pCol + 21)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 12) && move.dCol == (move.pCol + 28)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 15) && move.dCol == (move.pCol + 35)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 18) && move.dCol == (move.pCol + 42)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 21) && move.dCol == (move.pCol + 49)){
+		legalPly = true;
+	}
+
+	//for diagonal movement in ASCENDING LEFT direction (row -3 , col -7)
+	if(move.dRow == (move.pRow - 3) && move.dCol == (move.pCol - 7)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow - 6) && move.dCol == (move.pCol - 14)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow - 9) && move.dCol == (move.pCol - 21)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow - 12) && move.dCol == (move.pCol - 28)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow - 15) && move.dCol == (move.pCol - 35)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow - 18) && move.dCol == (move.pCol - 42)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow - 21) && move.dCol == (move.pCol - 49)){
+		legalPly = true;
+	}
+
+	//for diagonal movement in DESCENDING LEFT direction (row +3 , col -7)
+	if(move.dRow == (move.pRow + 3) && move.dCol == (move.pCol - 7)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 6) && move.dCol == (move.pCol - 14)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 9) && move.dCol == (move.pCol - 21)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 12) && move.dCol == (move.pCol - 28)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 15) && move.dCol == (move.pCol - 35)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 18) && move.dCol == (move.pCol - 42)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 21) && move.dCol == (move.pCol - 49)){
+		legalPly = true;
+	}
+
+	return legalPly;
+}
+
+bool towerLogic(Ply move, Piece whitArr[], Piece blckArr[], int pIndex){
+    bool legalPly = false;
+	int i = pIndex;
+
+	//for vertical movement in an UPWARD direction
+	if(move.dRow == (move.pRow - 3) && move.pCol == move.dCol){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow - 6) && move.pCol == move.dCol){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow - 9) && move.pCol == move.dCol){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow - 12) && move.pCol == move.dCol){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow - 15) && move.pCol == move.dCol){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow - 18) && move.pCol == move.dCol){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow - 21) && move.pCol == move.dCol){
+		legalPly = true;
+	}
+	
+	//for vertical movement in a DOWNWARD direction
+	if(move.dRow == (move.pRow + 3) && move.pCol == move.dCol){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 6) && move.pCol == move.dCol){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 9) && move.pCol == move.dCol){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 12) && move.pCol == move.dCol){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 15) && move.pCol == move.dCol){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 18) && move.pCol == move.dCol){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 21) && move.pCol == move.dCol){
+		legalPly = true;
+	}
+
+	//for horizontal movement in a RIGHTWARD direction
+	if(move.pRow == move.dRow && move.dCol == (move.pCol + 7)){
+		legalPly = true;
+	}
+	if(move.pRow == move.dRow && move.dCol == (move.pCol + 14)){
+		legalPly = true;
+	}
+	if(move.pRow == move.dRow && move.dCol == (move.pCol + 21)){
+		legalPly = true;
+	}
+	if(move.pRow == move.dRow && move.dCol == (move.pCol + 28)){
+		legalPly = true;
+	}
+	if(move.pRow == move.dRow && move.dCol == (move.pCol + 35)){
+		legalPly = true;
+	}
+	if(move.pRow == move.dRow && move.dCol == (move.pCol + 42)){
+		legalPly = true;
+	}
+	if(move.pRow == move.dRow && move.dCol == (move.pCol + 49)){
+		legalPly = true;
+	}
+
+	//for horizontal movement in a LEFTWARD direction
+	if(move.pRow == move.dRow && move.dCol == (move.pCol - 7)){
+		legalPly = true;
+	}
+	if(move.pRow == move.dRow && move.dCol == (move.pCol - 14)){
+		legalPly = true;
+	}
+	if(move.pRow == move.dRow && move.dCol == (move.pCol - 21)){
+		legalPly = true;
+	}
+	if(move.pRow == move.dRow && move.dCol == (move.pCol - 28)){
+		legalPly = true;
+	}
+	if(move.pRow == move.dRow && move.dCol == (move.pCol - 35)){
+		legalPly = true;
+	}
+	if(move.pRow == move.dRow && move.dCol == (move.pCol - 42)){
+		legalPly = true;
+	}
+	if(move.pRow == move.dRow && move.dCol == (move.pCol - 49)){
+		legalPly = true;
+	}
+	
+	return legalPly;
+}
+
+bool queenLogic(Ply move, Piece whitArr[], Piece blckArr[], int pIndex){
+	bool legalPly = false;
+	int i = pIndex;
+
+	//for vertical movement in an UPWARD direction
+	if(move.dRow == (move.pRow - 3) && move.pCol == move.dCol){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow - 6) && move.pCol == move.dCol){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow - 9) && move.pCol == move.dCol){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow - 12) && move.pCol == move.dCol){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow - 15) && move.pCol == move.dCol){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow - 18) && move.pCol == move.dCol){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow - 21) && move.pCol == move.dCol){
+		legalPly = true;
+	}
+	
+	//for vertical movement in a DOWNWARD direction
+	if(move.dRow == (move.pRow + 3) && move.pCol == move.dCol){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 6) && move.pCol == move.dCol){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 9) && move.pCol == move.dCol){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 12) && move.pCol == move.dCol){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 15) && move.pCol == move.dCol){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 18) && move.pCol == move.dCol){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 21) && move.pCol == move.dCol){
+		legalPly = true;
+	}
+
+	//for horizontal movement in a RIGHTWARD direction
+	if(move.pRow == move.dRow && move.dCol == (move.pCol + 7)){
+		legalPly = true;
+	}
+	if(move.pRow == move.dRow && move.dCol == (move.pCol + 14)){
+		legalPly = true;
+	}
+	if(move.pRow == move.dRow && move.dCol == (move.pCol + 21)){
+		legalPly = true;
+	}
+	if(move.pRow == move.dRow && move.dCol == (move.pCol + 28)){
+		legalPly = true;
+	}
+	if(move.pRow == move.dRow && move.dCol == (move.pCol + 35)){
+		legalPly = true;
+	}
+	if(move.pRow == move.dRow && move.dCol == (move.pCol + 42)){
+		legalPly = true;
+	}
+	if(move.pRow == move.dRow && move.dCol == (move.pCol + 49)){
+		legalPly = true;
+	}
+
+	//for horizontal movement in a LEFTWARD direction
+	if(move.pRow == move.dRow && move.dCol == (move.pCol - 7)){
+		legalPly = true;
+	}
+	if(move.pRow == move.dRow && move.dCol == (move.pCol - 14)){
+		legalPly = true;
+	}
+	if(move.pRow == move.dRow && move.dCol == (move.pCol - 21)){
+		legalPly = true;
+	}
+	if(move.pRow == move.dRow && move.dCol == (move.pCol - 28)){
+		legalPly = true;
+	}
+	if(move.pRow == move.dRow && move.dCol == (move.pCol - 35)){
+		legalPly = true;
+	}
+	if(move.pRow == move.dRow && move.dCol == (move.pCol - 42)){
+		legalPly = true;
+	}
+	if(move.pRow == move.dRow && move.dCol == (move.pCol - 49)){
+		legalPly = true;
+	}
+	
+	//for diagonal movement in ASCENDING RIGHT direction (row -3 , col +7)
+	if(move.dRow == (move.pRow - 3) && move.dCol == (move.pCol + 7)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow  -6) && move.dCol == (move.pCol + 14)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow - 9) && move.dCol == (move.pCol + 21)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow - 12) && move.dCol == (move.pCol + 28)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow - 15) && move.dCol == (move.pCol + 35)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow - 18) && move.dCol == (move.pCol + 42)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow - 21) && move.dCol == (move.pCol + 49)){
+		legalPly = true;
+	}
+
+	//for diagonal movement in DESCENDING RIGHT direction (row +3 , col +7)
+	if(move.dRow == (move.pRow + 3) && move.dCol == (move.pCol + 7)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 6) && move.dCol == (move.pCol + 14)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 9) && move.dCol == (move.pCol + 21)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 12) && move.dCol == (move.pCol + 28)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 15) && move.dCol == (move.pCol + 35)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 18) && move.dCol == (move.pCol + 42)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 21) && move.dCol == (move.pCol + 49)){
+		legalPly = true;
+	}
+
+	//for diagonal movement in ASCENDING LEFT direction (row -3 , col -7)
+	if(move.dRow == (move.pRow - 3) && move.dCol == (move.pCol - 7)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow - 6) && move.dCol == (move.pCol - 14)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow - 9) && move.dCol == (move.pCol - 21)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow - 12) && move.dCol == (move.pCol - 28)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow - 15) && move.dCol == (move.pCol - 35)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow - 18) && move.dCol == (move.pCol - 42)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow - 21) && move.dCol == (move.pCol - 49)){
+		legalPly = true;
+	}
+
+	//for diagonal movement in DESCENDING LEFT direction (row +3 , col -7)
+	if(move.dRow == (move.pRow + 3) && move.dCol == (move.pCol - 7)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 6) && move.dCol == (move.pCol - 14)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 9) && move.dCol == (move.pCol - 21)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 12) && move.dCol == (move.pCol - 28)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 15) && move.dCol == (move.pCol - 35)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 18) && move.dCol == (move.pCol - 42)){
+		legalPly = true;
+	}
+	if(move.dRow == (move.pRow + 21) && move.dCol == (move.pCol - 49)){
+		legalPly = true;
+	}
+
+	return legalPly;
+}
 
 //Check input for piece selection and destination, used in get ply function
 // This function does input validation 
@@ -657,7 +1065,7 @@ bool checkIn(char letter, int number){
 	bool valid;
 	//Validates letter input for column selection 
 	if(letter < 'A' || letter > 'H'){
-		valid = false; 
+		valid = false;
 	}else{
 		valid = true;
 	}
