@@ -1059,6 +1059,54 @@ bool queenLogic(Ply move, Piece whitArr[], Piece blckArr[], int pIndex){
 	return legalPly;
 }
 
+bool kingLogic(Ply move, Piece whitArr[], Piece blckArr[], int pIndex){
+	bool legalPly = false;
+	int i = pIndex;
+
+	//for vertical movement in an UPWARD direction
+	if(move.dRow == (move.pRow - 3) && move.pCol == move.dCol){
+		legalPly = true;
+	}
+
+	//for vertical movement in a DOWNWARD direction
+	if(move.dRow == (move.pRow + 3) && move.pCol == move.dCol){
+		legalPly = true;
+	}
+
+	//for horizontal movement in a RIGHTWARD direction
+	if(move.pRow == move.dRow && move.dCol == (move.pCol + 7)){
+		legalPly = true;
+	}
+
+	//for horizontal movement in a LEFTWARD direction
+	if(move.pRow == move.dRow && move.dCol == (move.pCol - 7)){
+		legalPly = true;
+	}
+
+	//for diagonal movement in ASCENDING RIGHT direction (row -3 , col +7)
+	if(move.dRow == (move.pRow - 3) && move.dCol == (move.pCol + 7)){
+		legalPly = true;
+	}
+
+	//for diagonal movement in ASCENDING LEFT direction (row -3 , col -7)
+	if(move.dRow == (move.pRow - 3) && move.dCol == (move.pCol - 7)){
+		legalPly = true;
+	}
+
+	//for diagonal movement in DESCENDING RIGHT direction (row +3 , col +7)
+	if(move.dRow == (move.pRow + 3) && move.dCol == (move.pCol + 7)){
+		legalPly = true;
+	}
+
+	//for diagonal movement in DESCENDING LEFT direction (row +3 , col -7)
+	if(move.dRow == (move.pRow + 3) && move.dCol == (move.pCol - 7)){
+		legalPly = true;
+	}
+	
+
+	return legalPly;
+}
+
 //Check input for piece selection and destination, used in get ply function
 // This function does input validation 
 bool checkIn(char letter, int number){
