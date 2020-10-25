@@ -35,7 +35,7 @@ void movePiece(Ply, Piece[], Piece[]);			//Move piece using ply data
 
 void clearScreen();								//Outputs a bunch of newlines to shows the new board
 
-string idPiece(Ply, Piece[], int&);					//Identifies pieces by name, using position coordinates (used by legalM)
+string idPiece(Ply, Piece[], int&);				//Identifies pieces by name, using position coordinates (used by legalM)
 
 bool legalM(Ply , Piece [], Piece []);			//returns bool to indicate move legality (uses functions below)
 
@@ -48,6 +48,8 @@ bool bishopLogic(Ply,Piece[],Piece[],int);		//Checks that move is legal for bish
 bool towerLogic(Ply,Piece[],Piece[],int);		//Checks that move is legal for tower
 
 bool queenLogic(Ply,Piece[],Piece[],int);		//Checks that move is legal for queen pieces 
+
+bool kingLogic(Ply,Piece[],Piece[],int);		//Checks that move is legal for king pieces 
 
 bool checkIn(char, int);					//Validates user input during getPLy function
 
@@ -571,6 +573,9 @@ bool legalM(Ply move, Piece whitArr[], Piece blckArr[]){
 	if(pieceName == "Queen"){
 		legal = queenLogic(move, whitArr, blckArr, pIndex);
 	}
+	if(pieceName == "King"){
+		legal = kingLogic(move, whitArr, blckArr, pIndex);
+	}
 
 
 	return legal;
@@ -622,7 +627,6 @@ bool pwnLogic(Ply move, Piece whitArr[], Piece blckArr[], int pIndex){
 	}//else the pawn is attemping to capture... code is yet to be written for this	******************
 	return legalPly;
 }
-
 
 bool knightLogic(Ply move, Piece whitArr[], Piece blckArr[], int pIndex){
 	bool legalPly = false;
@@ -1127,3 +1131,4 @@ bool checkIn(char letter, int number){
 
 	return valid;
 }
+
