@@ -10,16 +10,16 @@ struct Piece {
 	int row;
 	int col;
 	string color;
-        bool firstT;
+    bool firstT;
 };
 
 //Stores information used to move pieces
 struct Ply {
-    string player;
-    int pRow; //Current position row coordinate
-    int pCol; //Current position column coordinate 
-    int dRow; //Destination row coordinate
-    int dCol; //Destination column coordinate
+    string player; //Player color
+    int pRow;    //Current position row coordinate
+    int pCol;    //Current position column coordinate 
+    int dRow;    //Destination row coordinate
+    int dCol;    //Destination column coordinate
 };
 
 #endif 

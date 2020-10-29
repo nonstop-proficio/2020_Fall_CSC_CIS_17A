@@ -1,8 +1,16 @@
+/* 
+ * Purpose: Project 1 - Chess
+ * File:   main.cpp
+ * Author: Antero Avalos
+ *
+ * Created on October, 2020
+ */
+
 //System Libraries
 #include <iostream>
 #include <iomanip>
-#include <math.h>
 #include <string>
+
 using namespace std;
 
 //User Libraries
@@ -20,38 +28,25 @@ char** makeBoard_V2(int, int,Piece [],Piece[]); //Generates board using 2d array
 void prntBoard_V2(char**, int, int);			//Print board
 void writeLetters(char**, Piece [], Piece []);	//Write letters to board array
 void writePatterns(char**);						//Write black and white to board array
-
-
 void destroy(char**, int);						//Unallocate memory
 void writePiece_v2(char**, Piece[]);			//Redesigned write Piece function
-
 Ply getPly(string);								//PLayer turn information, used for the movePiece function
 int processLetter(char);						//Used for conversion of user input into board coordinates
 int processNum(int);							//Used for conversion of user input into board coordinates
-
 void turnCheck(int&, string&);					//Check turnCount variable to see who's turn it is
-
 void movePiece(Ply, Piece[], Piece[]);			//Move piece using ply data
-
 void clearScreen();								//Outputs a bunch of newlines to shows the new board
-
 string idPiece(Ply, Piece[], int&);				//Identifies pieces by name, using position coordinates (used by legalM)
-
 bool legalM(Ply , Piece [], Piece []);			//returns bool to indicate move legality (uses functions below)
-
 bool pwnLogic(Ply,Piece[],Piece[],int);			//Checks that move is legal for pawns
-
 bool knightLogic(Ply,Piece[],Piece[],int);		//Checks that move is legal for knights
-
 bool bishopLogic(Ply,Piece[],Piece[],int);		//Checks that move is legal for bishops
-
 bool towerLogic(Ply,Piece[],Piece[],int);		//Checks that move is legal for tower
-
 bool queenLogic(Ply,Piece[],Piece[],int);		//Checks that move is legal for queen pieces 
-
 bool kingLogic(Ply,Piece[],Piece[],int);		//Checks that move is legal for king pieces 
-
-bool checkIn(char, int);					//Validates user input during getPLy function
+bool checkIn(char, int);						//Validates user input during getPLy function
+//void capture(Ply,Piece[],Piece[]);			//sets the captured value for a piece when needed
+bool obstructd(Ply,Piece[],Piece[],int); 		//Check for obstructing pieces in a move
 
 //-----------------------------------------MAIN--------------------------------
 int main()
@@ -130,23 +125,13 @@ int main()
 		turnCheck(turnCount, player);
 
 		if(player == "white"){
-			cout << "White's Turn. \nPress Enter to continue. \n";
+			cout << "White's Turn. \n";
 		}else{
-			cout << "Black's Turn: \nPress Enter to continue. \n";
+			cout << "Black's Turn: \n";
 		}
 
 		//get the corresponding ply data
 		moveData = getPly(player);
-
-		/*	
-		//testing: output members of moveData
-		cout << "Move data recorded: \n"
-			 << moveData.player << endl
-			 << moveData.pCol << endl
-			 << moveData.pRow << endl
-			 << moveData.dCol << endl
-			 << moveData.dRow << "\n\n\n";
-		*/
 
 
 		//check if move is legal
@@ -164,11 +149,6 @@ int main()
 	
 	} while (cMate != true);
 	
-	
-	//get ply from white 
-	//getPly(white);
-	//move using ply 
-	//movePiece(board, )
 
 	//make sure to unallocate any memory used
 	destroy(board, BH);
@@ -311,12 +291,18 @@ void writePiece_v2(char** boardPtr, Piece colorArr[]) {
 	//there are 16 pieces of each color 
 	
 	//iterate color array to write each piece on the board based on its members 
-	//we can use the bool dead to decide wether to print it or not
+	//we use the bool captured to decide wether to print it or not
 
 	for (int i = 0; i < 16; i++) {
 		string iLetters = colorArr[i].letters;
 		for (int j = 0, row = colorArr[i].row, col = colorArr[i].col; j < 2; j++, col++) {
-			*(*(boardPtr + row) + col) = iLetters[j];
+			if(colorArr[i].captured == true){
+				colorArr[i].letters = "   ";
+			}
+			else{
+				*(*(boardPtr + row) + col) = iLetters[j];
+			}
+			
 		}
 	}
 }
@@ -355,7 +341,6 @@ Ply getPly(string player){
 		input.player = "black";
 	}
 	
-	cin.ignore();
 	char pLetter = ' '; //input from position letter 
 	int  pNum = 0;		//input from position row
 	char dLetter = ' '; //input from destination letter
@@ -379,6 +364,7 @@ Ply getPly(string player){
 	//get destination values
 	cout << "Where do you want to move?(e.x: A 4): ";
 	cin >> dLetter >> dNum;	
+
 	//validate piece destination input
 	while(checkIn(dLetter, dNum) != true){
 		cout << "Your selection is invalid.\n"
@@ -387,10 +373,6 @@ Ply getPly(string player){
 		cin >> dLetter >> dNum;	
 	}	
 	
-	
-
-	//Rewritting validation
-
 
 	//Letters are used to determine the column value on the board
 	//Numbers are used to determine the row value on the board
@@ -484,7 +466,8 @@ void turnCheck(int &turnCount, string &player){
 }
 
 void movePiece (Ply move, Piece blckArr[], Piece whitArr[]){
-	
+	//capture(move, blckArr, whitArr);
+
 	//If move was made by black player
 	if(move.player == "black"){
 		//find the piece to be moved with the position row coordinates, and 
@@ -509,15 +492,6 @@ void movePiece (Ply move, Piece blckArr[], Piece whitArr[]){
 			}
 		}
 	}
-
-	//testing: display that the values were indeed modified
-	for(int i = 0; i < 16; i++){
-		cout << whitArr[i].row << endl
-			 << whitArr[i].col << endl;
-			 
-	}
-
-
 }
 
 void clearScreen(){
@@ -556,7 +530,7 @@ bool legalM(Ply move, Piece whitArr[], Piece blckArr[]){
 		pieceName = idPiece(move, blckArr, pIndex); //Get piece name, also sets value of pIndex 
 	}	
 
-	//Depending on piece name and color, certain restrictions to moving are applied
+	//Depending on piece name, certain restrictions to moving are applied
 	//these are defined by the piece logic functions below (e.x. pawnLogic)...
 	if(pieceName == "Pawn"){
 		legal = pwnLogic(move, whitArr, blckArr, pIndex);
@@ -625,6 +599,11 @@ bool pwnLogic(Ply move, Piece whitArr[], Piece blckArr[], int pIndex){
 			legalPly = false;
 		}
 	}//else the pawn is attemping to capture... code is yet to be written for this	******************
+
+	if(obstructd(move, whitArr, blckArr, pIndex) == false){
+		legalPly = true; 
+	}
+
 	return legalPly;
 }
 
@@ -664,6 +643,10 @@ bool knightLogic(Ply move, Piece whitArr[], Piece blckArr[], int pIndex){
 	}
 	if(move.dRow == (move.pRow + 6) && move.dCol == (move.pCol + 7)){
 		legalPly = true;
+	}
+
+	if(obstructd(move, whitArr, blckArr, pIndex) == false){
+		legalPly = true; 
 	}
     
 	return legalPly;
@@ -770,6 +753,10 @@ bool bishopLogic(Ply move, Piece whitArr[], Piece blckArr[], int pIndex){
 		legalPly = true;
 	}
 
+	if(obstructd(move, whitArr, blckArr, pIndex) == false){
+		legalPly = true; 
+	}
+
 	return legalPly;
 }
 
@@ -867,6 +854,10 @@ bool towerLogic(Ply move, Piece whitArr[], Piece blckArr[], int pIndex){
 	}
 	if(move.pRow == move.dRow && move.dCol == (move.pCol - 49)){
 		legalPly = true;
+	}
+
+	if(obstructd(move, whitArr, blckArr, pIndex) == false){
+		legalPly = true; 
 	}
 	
 	return legalPly;
@@ -1059,6 +1050,10 @@ bool queenLogic(Ply move, Piece whitArr[], Piece blckArr[], int pIndex){
 	if(move.dRow == (move.pRow + 21) && move.dCol == (move.pCol - 49)){
 		legalPly = true;
 	}
+	
+	if(obstructd(move, whitArr, blckArr, pIndex) == false){
+		legalPly = true; 
+	}
 
 	return legalPly;
 }
@@ -1107,6 +1102,9 @@ bool kingLogic(Ply move, Piece whitArr[], Piece blckArr[], int pIndex){
 		legalPly = true;
 	}
 	
+	if(obstructd(move, whitArr, blckArr, pIndex) == false){
+		legalPly = true; 
+	}
 
 	return legalPly;
 }
@@ -1132,3 +1130,67 @@ bool checkIn(char letter, int number){
 	return valid;
 }
 
+
+// Capture function
+// removes the piece from board if it has been captured
+
+// Checks that the square you move to is not occupied by a piece of the same color.
+// If it is occupied by piece of different colored, then the piece is captured. 
+bool obstructd(Ply move, Piece whitArr[], Piece blckArr[], int pIndex){
+	bool obstructed = false; 
+
+	Piece * pDataM =  new Piece; 	//Stores information of piece being moved
+	Piece * pDataWh =  new Piece; 	//Store information of white piece iterated 
+	Piece * pDataBl =  new Piece; 	//Store information of black piece iterated 
+
+	if(move.player == "white"){
+		*pDataM = whitArr[pIndex];	//this is the moving piece
+		for(int i = 0; i < 16; i++){
+			*pDataWh = whitArr[i];
+			
+			if(i == pIndex){
+				continue; //Skip iteration that would compare moving piece with itself
+			}
+			
+			*pDataBl = blckArr[i];
+
+			if((move.dRow == pDataWh->row) && (move.dCol == pDataWh->col)){
+				obstructed = true;
+			}
+
+			if((move.dRow == pDataBl->row) && (move.dCol == pDataBl->col)){
+				pDataBl->captured = true;
+			}
+		} 
+	}
+	
+	delete pDataBl, pDataM, pDataWh;
+
+	return obstructed;
+}
+
+//Creates a struct array of pieces, simlar to the black and white ones,
+// stores occupied square values in it.
+void capture(Ply move, Piece whitArr[], Piece blckArr[]){
+	bool cap = false;
+	//Evaluate the player color during that turn and see of the move
+	// made would capture a piece of the other color.
+	if(move.player  == "white"){
+		for (int i = 0; i < 16; i++)
+		{
+			if(move.dRow == blckArr[i].row && move.dCol == blckArr[i].col){
+				blckArr[i].captured = true;
+			}
+		}	
+	}
+
+	if(move.player  == "black"){
+		for (int i = 0; i < 16; i++)
+		{
+			if(move.dRow == whitArr[i].row && move.dCol == whitArr[i].col){
+				blckArr[i].captured = true;
+			}
+		}	
+	}
+	return;
+}
