@@ -22,6 +22,4 @@ int main(int argc, char** argv) {
 }
 //--------------------------- MAIN ends here ----------------------------------
 
-//Function Definitions 
-
-
+//Function Definitions
