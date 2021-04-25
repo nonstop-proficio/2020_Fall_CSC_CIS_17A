@@ -42,9 +42,9 @@ using namespace std;
 Customer *getCust();        //Creates and returns customer objects
 int getAcct();              //Get account number
 int chekLen(int);           //Validates user input for account number
-float getBal(int);          //
-float getDeps(int);         //
-void dspCust(Customer*);     //Display contents of a customer object
+float getChks(int);          //Gets account balance
+float getDeps(int);         //Gets deposit amount 
+void dspCust(Customer*);    //Display contents of a customer object
 
 //---------------------------------------MAIN starts here--------------------------------------
 int main(int argc, char** argv) {
@@ -61,6 +61,10 @@ int main(int argc, char** argv) {
 }
 //---------------------------------------MAIN ends here--------------------------------------
 
+
+//---------------------------------------FUNCTION DEFINITIONS--------------------------------
+
+//Creates the structure from given information, utilizes some of the functions below
 Customer *getCust(){
     //Create a struct pointer
     Customer *custInf =  new Customer;
@@ -87,16 +91,16 @@ Customer *getCust(){
     custInf->initBal = mBalIn;
     //Total of checks written by customer this month
     cout << "How many checks did you write this month?: ";
-    int nChks = 0;
+    int nChks = 0; //number of checks variable
     cin >> nChks;
-    custInf->spent = getBal(nChks);
+    custInf->spent = getChks(nChks);
     //Total of deposits credited to customer's account
     cout << "How many deposits did you get this month?: ";
-    int nDeps = 0;
+    int nDeps = 0; //number of deposits variable 
     cin >> nDeps;
     custInf->dposits = getDeps(nDeps);
     //Calculate new balance
-    float nuBal = custInf->initBal + custInf->dposits - custInf->spent;
+    float nuBal = custInf->initBal + custInf->dposits - custInf->spent; //balance variable 
     custInf->newBal = nuBal;
 
     //Check new balance for overdrawn balance, if account is overdrawn; 20$ charge is applied
@@ -110,7 +114,7 @@ Customer *getCust(){
     return custInf;
 }
 
-//Get acount number, 
+//Get account number
 int getAcct(){
     int len = 0, 
         acctNum = 0;
@@ -132,6 +136,7 @@ int getAcct(){
     }
 }
 
+//Check the length of account number
 int chekLen(int acctNum){
     int len = 0;  
     do{
@@ -142,7 +147,8 @@ int chekLen(int acctNum){
     return len;
 }
 
-float getBal(int nChks){
+//Get account balance amount 
+float getChks(int nChks){
     float chckArr[nChks];
     float sum;
     for (int i = 0; i < nChks; i++)

@@ -26,7 +26,7 @@ using namespace std;
 Customer *getCust();        //Creates and returns customer objects
 int getAcct();              //Get account number
 int chekLen(int);           //Validates user input for account number
-float getBal(int);          //Gets the starting balance for the month
+float (int);          //Gets the starting balance for the month
 float getDeps(int);         //Gets the deposits for the month
 void dspCust(Customer*);    //Display contents of a customer object
 void problm1();             //Run problem 1
@@ -169,7 +169,7 @@ Customer *getCust(){
     cout << "How many checks did you write this month?: ";
     int nChks = 0;
     cin >> nChks;
-    custInf->spent = getBal(nChks);
+    custInf->spent = (nChks);
     //Total of deposits credited to customer's account
     cout << "How many deposits did you get this month?: ";
     int nDeps = 0;
@@ -222,7 +222,7 @@ int chekLen(int acctNum){
     return len;
 }
 
-float getBal(int nChks){
+float (int nChks){
     float chckArr[nChks];
     float sum;
     for (int i = 0; i < nChks; i++)
