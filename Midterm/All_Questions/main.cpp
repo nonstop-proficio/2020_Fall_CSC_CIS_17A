@@ -871,6 +871,20 @@ void problm4(){
 void problm5(){
     cout << "Welcome to Problem #5: ";
 
+    cout << "The following are the largest n! that can be calculated per type: \n" << endl;
+    
+    cout << "char:              5, overflows at 6" << endl;
+    cout << "unsigned char:     5, overflows at 6" << endl;
+    cout << "short:             7, overflows at 8" << endl;
+    cout << "unsigned short:    8, overflows at " << endl;
+    cout << "int:               16, overflows at 17" << endl;
+    cout << "unsigned int:      33, overflows at 34" << endl;
+    cout << "float:             ?" << endl;
+    cout << "double:            ?" << endl;
+    
+    
+    
+    
     return;
 }
 

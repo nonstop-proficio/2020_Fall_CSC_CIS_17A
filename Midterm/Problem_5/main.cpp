@@ -18,31 +18,102 @@ using namespace std;
 /*
  * 
  */
+
+//Function Prototypes
+void getUnsShF();    //Factorial calculation for unsigned shorts
+void getShF();       //Factorial calculation for shorts
+
+void getIntF();       //Factorial calculation for integers 
+void getUnsIntF();    //Factorial calculation for unsigned integers 
+
+
 int main(int argc, char** argv) {
 
-    int nInt = 1;
-    unsigned int nUInt = 1;
-
-    double d = 1;
-    //unsigned double ud;
-
-    char cI = 1;
-    unsigned char ucI = 1;
-
-    float fI = 1; 
-    //unsigned float;
-
-    short sI = 1;
-    unsigned short usI = 1;
-
-    int factorial;
-    cin >> factorial;
-
-    for(int i = 0; i < factorial; i++){
-        cout << nInt << endl;
-        nInt *= (nInt++);
-    }   
+    getIntF();
+    
+    //getUnsIntF();
+    
+    //getUnsShF();
+    
+    //getShF();
 
     return 0;
 }
 
+
+//Function Definitions
+void getIntF(){
+    //Prompt user for a number to get factorial of
+    cout << "Enter the value of n (must be a number):\n"; 
+    
+    //Variables, change type here if needed
+    int n;          //Number to get factorial of
+    int factorial = 1;  //Factorial, pretty self explanatory 
+    
+    //getting user input 
+    cin >> n;
+    
+    //Now we can calculate the factorial of given number and see if it overflows?
+    for (int i = 1; i <= n; i++){
+        factorial *= i;
+    }
+    
+    cout << "Factorial of " << n << " = " << factorial;
+}
+
+void getUnsIntF(){
+    //Prompt user for a number to get factorial of
+    cout << "Enter the value of n (must be a number):\n"; 
+    
+    //Variables, change type here if needed 
+    unsigned int n;          //Number to get factorial of
+    unsigned int factorial = 1;  //Factorial, pretty self explanatory 
+    
+    //getting user input 
+    cin >> n;
+    
+    //Now we can calculate the factorial of given number and see if it overflows?
+    for (int i = 1; i <= n; i++){
+        factorial *= i;
+    }
+    
+    cout << "Factorial of " << n << " = " << factorial;
+}
+
+void getUnsShF(){
+    //Prompt user for a number to get factorial of
+    cout << "Enter the value of n (must be a number):\n"; 
+    
+    //Variables, change type here if needed 
+    unsigned short n;          //Number to get factorial of
+    unsigned short factorial = 1;  //Factorial, pretty self explanatory 
+    
+    //getting user input 
+    cin >> n;
+    
+    //Now we can calculate the factorial of given number and see if it overflows?
+    for (int i = 1; i <= n; i++){
+        factorial *= i;
+    }
+    
+    cout << "Factorial of " << n << " = " << factorial;
+}
+
+void getShF(){
+    //Prompt user for a number to get factorial of
+    cout << "Enter the value of n (must be a number):\n"; 
+    
+    //Variables, change type here if needed 
+    short n;              //Number to get factorial of
+    short factorial = 1;  //Factorial, pretty self explanatory 
+    
+    //getting user input 
+    cin >> n;
+    
+    //Now we can calculate the factorial of given number and see if it overflows?
+    for (int i = 1; i <= n; i++){
+        factorial *= i;
+    }
+    
+    cout << "Factorial of " << n << " = " << factorial;
+}
