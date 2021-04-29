@@ -27,7 +27,7 @@ Printout like a company Paycheck with format:
  * File:   main.cpp
  * Author: Antero
  *
- * Created on October 19, 2020
+ * Created on 04/28/2021
  */
 
 //System Libraries

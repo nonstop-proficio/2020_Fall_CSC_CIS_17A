@@ -8,7 +8,7 @@
  * File:   main.cpp
  * Author: anter
  *
- * Created on October 20, 2020
+ * Created on 04/28/2021
  */
 
 #include <cstdlib>
@@ -26,16 +26,24 @@ void getShF();       //Factorial calculation for shorts
 void getIntF();       //Factorial calculation for integers 
 void getUnsIntF();    //Factorial calculation for unsigned integers 
 
+void getFloatF();     //Factorial calculation for floats
+
+void getDoubleF();    //Factorial calculation for doubles 
+
 
 int main(int argc, char** argv) {
 
-    getIntF();
+    //getIntF();
     
     //getUnsIntF();
     
     //getUnsShF();
     
     //getShF();
+    
+    //getFloatF();
+    
+    getDoubleF();
 
     return 0;
 }
@@ -73,7 +81,7 @@ void getUnsIntF(){
     cin >> n;
     
     //Now we can calculate the factorial of given number and see if it overflows?
-    for (int i = 1; i <= n; i++){
+    for ( unsigned int i = 1; i <= n; i++){
         factorial *= i;
     }
     
@@ -117,3 +125,42 @@ void getShF(){
     
     cout << "Factorial of " << n << " = " << factorial;
 }
+
+void getFloatF(){
+    //Prompt user for a number to get factorial of
+    cout << "Enter the value of n (must be a number):\n"; 
+    
+    //Variables, change type here if needed 
+    float n;              //Number to get factorial of
+    float factorial = 1;  //Factorial, pretty self explanatory 
+    
+    //getting user input 
+    cin >> n;
+    
+    //Now we can calculate the factorial of given number and see if it overflows?
+    for (int i = 1; i <= n; i++){
+        factorial *= i;
+    }
+    
+    cout << "Factorial of " << n << " = " << factorial;
+}
+
+void getDoubleF(){
+    //Prompt user for a number to get factorial of
+    cout << "Enter the value of n (must be a number):\n"; 
+    
+    //Variables, change type here if needed 
+    double n;              //Number to get factorial of
+    double factorial = 1;  //Factorial, pretty self explanatory 
+    
+    //getting user input 
+    cin >> n;
+    
+    //Now we can calculate the factorial of given number and see if it overflows?
+    for (int i = 1; i <= n; i++){
+        factorial *= i;
+    }
+    
+    cout << "Factorial of " << n << " = " << factorial;
+}
+

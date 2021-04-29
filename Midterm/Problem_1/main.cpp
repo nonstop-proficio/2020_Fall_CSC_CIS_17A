@@ -26,7 +26,7 @@ Make sure to output the contents of the structure.
  * File:   main.cpp
  * Author: Antero
  *
- * Created on October 19, 2020
+ * Created on 04/28/2021
  */
 //System Libraries
 #include <cstdlib>

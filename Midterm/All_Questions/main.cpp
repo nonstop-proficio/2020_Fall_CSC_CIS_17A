@@ -3,7 +3,7 @@
  * File:   main.cpp
  * Author: Antero Avalos
  *
- * Created on October 20, 2020
+ * Created on 04/28/2021
  */
 
 //System Libraries
@@ -26,7 +26,7 @@ using namespace std;
 Customer *getCust();        //Creates and returns customer objects
 int getAcct();              //Get account number
 int chekLen(int);           //Validates user input for account number
-float (int);          //Gets the starting balance for the month
+float getChks(int);          //Gets the starting balance for the month
 float getDeps(int);         //Gets the deposits for the month
 void dspCust(Customer*);    //Display contents of a customer object
 void problm1();             //Run problem 1
@@ -222,7 +222,7 @@ int chekLen(int acctNum){
     return len;
 }
 
-float (int nChks){
+float getChks(int nChks){
     float chckArr[nChks];
     float sum;
     for (int i = 0; i < nChks; i++)
@@ -660,7 +660,7 @@ float getRate(){
 
 void problm2(){
     cout << "This problem has a bug that causes the program to \n"
-            "terminate after all the checks have been printed. \n";
+            "terminate after all the checks have been printed. \n\n";
 
     //Get number of employees
     int size = numEmpl();
@@ -876,11 +876,13 @@ void problm5(){
     cout << "char:              5, overflows at 6" << endl;
     cout << "unsigned char:     5, overflows at 6" << endl;
     cout << "short:             7, overflows at 8" << endl;
-    cout << "unsigned short:    8, overflows at " << endl;
-    cout << "int:               16, overflows at 17" << endl;
-    cout << "unsigned int:      33, overflows at 34" << endl;
-    cout << "float:             ?" << endl;
-    cout << "double:            ?" << endl;
+    cout << "unsigned short:    8, overflows at 9" << endl;
+    cout << "int:               12, overflows at 13" << endl;
+    cout << "unsigned int:      12, overflows at 13" << endl;
+    cout << "float:             34, overflows at 35" << endl;
+    cout << "double:            170, overflows at 171" << endl;
+    
+    
     
     
     
@@ -892,7 +894,6 @@ void problm5(){
 
 void problm6(){
 
-    cout << "The work for all conversions is posted on GitHub repo, I also sent an email with the pdfs. \n\n";
     cout << "Problem #6: Number Conversion Results.\n\n"
     
          << "(A)\n"
